@@ -1,0 +1,636 @@
+<%- include('../partials/header'); %>
+
+    <% console.log(row, '===========>row' ); %>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <section class="section">
+                <div class="section-header">
+                    <h1 id="animated_box">
+                        <%= currentModule; %>
+                    </h1>
+                </div>
+
+                <div class="section-body animate__animated  animate__backInUp">
+
+                    <div class="row">
+                        <div class="col-8 offset-2">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>
+                                        <%= currentSubModule %>
+                                    </h4>
+                                </div>
+                                <div class="card-body">
+                                    <form id="userAddEditForm" class="form_advanced_validation"
+                                        action="/<%= prefixBaseName; %>/categoryitem/addUpdate" method="POST"
+                                        autocomplete="off" enctype="multipart/form-data">
+
+                                        <div class="form-group">
+                                            <label>Title</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text"> 
+                                                        <i class="fas fa-signature"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="text" class="form-control" name="title"
+                                                    value="<%= row && row.title; %>" required <%=type=='view'
+                                                    ? 'disabled' : '' ; %> >
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="form-group">
+                                            <label>Parent Category</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="fas fa-user-tag"></i>
+                                                    </div>
+                                                </div>
+                                                <select name="parentId" class="form-control select2" required> -->
+                                                    <!-- <option value="0">Select Parent Category</option> -->
+                                                    <!-- <%
+                                                        if (parent.length > 0) {
+                                                            parent.forEach(category => {
+                                                    %>
+                                                    <option value="<%= category.value; %>" <%= row && row.parentId == category.value ? 'selected' : ''; %>><%= category.label; %></option>
+                                                    <%
+                                                            });
+                                                        } 
+                                                    %>
+                                                </select>
+                                            </div>
+                                        </div> -->
+
+                                        <!-- <div class="form-group">
+                                            <label>Parent Category</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="fas fa-user-tag"></i>
+                                                    </div>
+                                                </div>
+                                                <select name="parentId" class="form-control select2" required>  -->
+                                                    <!-- <option value="0">Select Parent Category</option> -->
+                                                     <!-- <%
+                                                        if (parent.length > 0) {
+                                                            parent.forEach(category => {
+                                                    %>
+                                                    <option value="<%= category.value; %>" <%= row && row.parentId == category.value ? 'selected' : ''; %>><%= category.label; %></option>
+                                                    <%
+                                                            });
+                                                        } 
+                                                    %>
+                                                </select>
+                                            </div>
+                                        </div> -->
+
+                                        <div class="form-group">
+                                            <label>Sub Category</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="fas fa-list-alt"></i>
+                                                    </div>
+                                                </div>
+                                                <select name="subCategoryId" class="form-control select2" required
+                                                    <%=type=='view' ? 'disabled' : '' ; %> >
+                                                    <!-- <option value="">Select Tax Type</option> -->
+                                                    <% subCategories.forEach(subCategory=> {
+                                                        %>
+                                                        <option value="<%= subCategory.id; %>" <%=row &&
+                                                            row.subCategoryId==subCategory.id ? 'selected' : '' ; %>
+                                                            ><%= subCategory.name; %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="form-group">
+                                            <label>Image</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="fas fa-image"></i>
+                                                    </div>
+                                                </div>
+                                                <div id="image-preview" class="image-preview"
+                                                    style="background-image: url('<%= row && row.image ? row.image : `${baseUrl}/uploads/default/default_image.jpg`; %>'); background-size: cover; background-position: center center;">
+                                                    <% if (type !='view' ) { %>
+                                                        <label for="image-upload" id="image-label">Choose File</label>
+                                                        <input type="file" name="image" id="image-upload" />
+                                                        <% } %>
+                                                </div>
+                                            </div>
+                                        </div> -->
+
+                                        <div class="form-group">
+                                            <label>Quantity Type</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="fas fa-signature"></i> 
+                                                    </div>
+                                                </div>
+                                                <label for="numberType">Number</label><br>
+                                                <input type="radio" id="numberType" class="form-control" name="quantityType"
+                                                    value="0" <%=type=='view' ? 'disabled' : '' ; %>
+                                                <%= row && row.quantityType==0 ? 'checked' : '' ; %>
+                                                    required>
+                                                    
+                                                    <label for="kgType">Kg</label><br>
+                                                    <input id="kgType" type="radio" class="form-control"
+                                                        name="quantityType" value="1" <%=type=='view' ? 'disabled' : '' ;
+                                                        %>
+                                                    <%= row && row.quantityType==1 ? 'checked' : '' ; %>
+                                                        required>
+
+
+                                                        <label for="poundType">pound</label><br>
+                                                        <input id="poundType" type="radio" class="form-control"
+                                                            name="quantityType" value="2" <%=type=='view' ? 'disabled' : '' ;
+                                                            %>
+                                                        <%= row && row.quantityType==2 ? 'checked' : '' ; %>
+                                                            required>
+                                                        
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Number / Kg / Pound</label>
+                                            <div class="input-group">
+                                                <!-- <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                  <i class="fas fa-image"></i>
+                                                </div>
+                                              </div> -->
+                                                <!-- <div id="image-preview" class="image-preview"
+                                                    style="background-image: url('<%= row && row.image; %>'); background-size: cover; background-position: center center;">
+                                                    <% if (type != 'view') { %>
+                                                    <label for="image-upload" id="image-label">Choose File</label>
+                                                    <% } %>
+                                                </div> -->
+
+                                                <% if (type !='view' ) { %>
+                                                    <textarea class="form-control" accept="video/mp4,video/x-m4v,number/*, kg/*, pound/*" type="text" name="quantity"
+                                                    style="min-height: 100px;" required <%=type=='view' ? 'disabled'
+                                                    : '' ; %> ><%= row && row.quantity; %></textarea>
+                                                    <% } else {
+                                                         if (row.quantityType==0) { %>
+                                                        <number alt="quantity" src="<%= row.quantity; %>"
+                                                            title="<%= row.title; %>">
+                                                        <% } else if (row.quantityType==1) { %>
+                                                            <kg alt="quantity" src="<%= row.quantity; %>" 
+                                                                title="<%= row.title; %>" 
+                                                            <% } else if (row.quantityType==2) {
+                                                            %>
+                                                            <pound alt="quantity" src="<%= row.quantity; %>" 
+                                                                title="<%= row.title; %>" ></pound>
+
+                                                            <%
+                                                            }
+                                                        } %>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Media Type</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="fas fa-signature"></i> 
+                                                    </div>
+                                                </div>
+                                                <label for="imageType">Image</label><br>
+                                                <input type="radio" id="imageType" class="form-control" name="mediaType"
+                                                    value="0" <%=type=='view' ? 'disabled' : '' ; %>
+                                                <%= row && row.mediaType==0 ? 'checked' : '' ; %>
+                                                    required>
+                                                    
+                                                    <label for="videoType">Video</label><br>
+                                                    <input id="videoType" type="radio" class="form-control"
+                                                        name="mediaType" value="1" <%=type=='view' ? 'disabled' : '' ;
+                                                        %>
+                                                    <%= row && row.mediaType==1 ? 'checked' : '' ; %>
+                                                        required>
+
+
+                                                        <label for="audioType">Audio</label><br>
+                                                        <input id="audioType" type="radio" class="form-control"
+                                                            name="mediaType" value="2" <%=type=='view' ? 'disabled' : '' ;
+                                                            %>
+                                                        <%= row && row.mediaType==2 ? 'checked' : '' ; %>
+                                                            required>
+                                                        
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Image / Video / Audio</label>
+                                            <div class="input-group">
+                                                <!-- <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                  <i class="fas fa-image"></i>
+                                                </div>
+                                              </div> -->
+                                                <!-- <div id="image-preview" class="image-preview"
+                                                    style="background-image: url('<%= row && row.image; %>'); background-size: cover; background-position: center center;">
+                                                    <% if (type != 'view') { %>
+                                                    <label for="image-upload" id="image-label">Choose File</label>
+                                                    <% } %>
+                                                </div> -->
+
+                                                <% if (type !='view' ) { %>
+                                                    <input accept="video/mp4,video/x-m4v,video/*, image/*, audio/*" type="file"
+                                                        name="media" <%=type=='add' ? 'required' : '' ; %> />
+                                                    <% } else {
+                                                         if (row.mediaType==0) { %>
+                                                        <img alt="media" src="<%= row.media; %>"
+                                                            class="datatable_list_image" data-toggle="tooltip"
+                                                            title="<%= row.title; %>">
+                                                        <% } else if (row.mediaType==1) { %>
+                                                            <video alt="media" src="<%= row.media; %>"
+                                                                class="datatable_list_image" data-toggle="tooltip"
+                                                                title="<%= row.title; %>" controls></video>
+                                                            <% } else if (row.mediaType==2) {
+                                                            %>
+                                                            <audio alt="media" src="<%= row.media; %>"
+                                                                class="datatable_list_image" data-toggle="tooltip"
+                                                                title="<%= row.title; %>" controls></audio>
+
+                                                            <%
+                                                            }
+                                                        } %>
+
+                                            </div>
+                                        </div>
+
+                                        <div id="videoThumbnailHolder">
+                                            <%
+                                            if (type!='add' && row.mediaType == 1) {
+
+                                            %>
+                                            <div class="form-group">
+                                                <label>Video Thumbnail</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="fas fa-image"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div id="image-preview" class="image-preview"
+                                                        style="background-image: url('<%= row && row.previewMedia ? row.previewMedia : `${baseUrl}/uploads/default/default_image.jpg`; %>'); background-size: cover; background-position: center center;">
+    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                        </div>
+                                        
+
+
+                                        <div class="form-group">
+                                            <label>Introduction</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="fas fa-signature"></i>
+                                                    </div>
+                                                </div>
+                                                <textarea class="form-control" name="introduction"
+                                                    style="min-height: 100px;" required <%=type=='view' ? 'disabled'
+                                                    : '' ; %> ><%= row && row.introduction; %></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>
+                                                <%= descriptionFieldTitle; %>
+                                            </label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="fas fa-signature"></i>
+                                                    </div>
+                                                </div>
+                                                <textarea class="form-control" name="description"
+                                                    style="min-height: 100px;" required <%=type=='view' ? 'disabled'
+                                                    : '' ; %> ><%= row && row.description; %></textarea>
+                                            </div>
+                                        </div>
+
+                                        <% if (categoryId==1) { %>
+                                            <div class="product_specification_container">
+                                                <div class="row">
+                                                    <div class="col-5 col-md-5 col-lg-5">
+                                                        <div class="form-group">
+                                                            <label>Ingredient Name</label>
+
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <div class="input-group-text">
+                                                                        <i class="fas fa-signature"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <input type="text" class="form-control"
+                                                                    name="recipeingredientName"
+                                                                    value="<%= recipeingredients && recipeingredients.length > 0 ? recipeingredients[0].name : '' %>"
+                                                                    required <%=type=='view' ? 'disabled' : '' ; %> >
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-5 col-md-5 col-lg-5">
+                                                        <label>Ingredient Value</label>
+                                                        <div class="form-group">
+
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <div class="input-group-text">
+                                                                        <i class="fas fa-signature"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <input type="text" class="form-control"
+                                                                    name="recipeingredientValue"
+                                                                    value="<%= recipeingredients && recipeingredients.length > 0 ? recipeingredients[0].value : '' %>"
+                                                                    required <%=type=='view' ? 'disabled' : '' ; %> >
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2 col-md-2 col-lg-2">
+                                                        <% if (recipeingredients && recipeingredients.length> 0) {
+                                                            %>
+                                                            <input type="hidden" class="form-control"
+                                                                name="recipeingredientId"
+                                                                value="<%= recipeingredients && recipeingredients.length > 0 ? recipeingredients[0].recipeingredientId : '' %>"
+                                                                required>
+                                                            <% } %>
+                                                    </div>
+                                                </div>
+
+                                                <%- recipeingredientsHTML %>
+                                            </div>
+
+                                            <% if (type !='view' ) { %>
+                                                <div class="row">
+                                                    <a href="javascript:void(0)"
+                                                        class="btn btn-icon btn-primary add_recipe_ingredient"
+                                                        style="width: calc(81% + -9px); margin-left: 15px;"><i
+                                                            class="fas fa-plus"></i></a>
+                                                </div>
+                                                <% } %>
+                                                    <br />
+
+                                                    <% } %>
+
+                                                        <div class="form-group">
+                                                            <label>Status</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <div class="input-group-text">
+                                                                        <i class="fas fa-check"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <select name="status" class="form-control select2"
+                                                                    required <%=type=='view' ? 'disabled' : '' ; %> >
+                                                                    <!-- <option value="">Select Tax Type</option> -->
+                                                                    <option value="0" <%=row && row.status==0
+                                                                        ? 'selected' : '' ; %>
+                                                                        >
+                                                                        Inactive</option>
+                                                                    <option value="1" <%=!row ? 'selected' :
+                                                                        row.status==1 ? 'selected' : '' ; %>
+                                                                        >
+                                                                        Active</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <% if (row) { %>
+                                                            <input type="hidden" class="form-control" name="id"
+                                                                value="<%= row && row.id; %>" required>
+                                                            <% } %>
+
+                                                                <input type="hidden" class="form-control"
+                                                                    name="categoryId" value="<%= categoryId; %>"
+                                                                    required>
+                                                                <input id="previewMedia" type="hidden" class="form-control"
+                                                                    name="previewMedia" value=""
+                                                                    >
+
+                                                                <input type="hidden" class="form-control"
+                                                                    name="redirectUrl"
+                                                                    value="/<%= prefixBaseName; %>/<%= modelBaseName; %>"
+                                                                    required>
+
+                                                                <div class="form-group row mb-4">
+
+                                                                    <div class="col-sm-12 col-md-7 offset-4">
+                                                                        <button type="button"
+                                                                            class="btn btn-secondary cancel_btn">Back</button>
+                                                                        &nbsp;
+                                                                        <% if (type !='view' ) { %>
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">
+                                                                                <%= row ? 'Update' : 'Submit' ; %>
+                                                                            </button>
+                                                                            <% } %>
+                                                                    </div>
+                                                                </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+        <%- include('../partials/footer'); %>
+
+
+
+            <script>
+                $(document).ready(function () {
+                    try {
+                        // $(document.body).on('click', '#capture_btn', capture);
+
+                        //                         function capture() {
+                        //                             var canvas = document.getElementById('canvas');
+                        //                             var video = document.getElementById('video');
+                        //                             var context = canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+                        // /* var canvas = document.getElementById('canvas') */;
+
+                        //                             var image = new Image();
+                        //                             image.id = "pic";
+                        //                             image.src = canvas.toDataURL();
+                        //                             document.getElementById('.image-preview').appendChild(image);
+
+                        //                             // const base64Canvas = canvas.toDataURL("image/jpeg").split(';base64,')[1];
+
+                        //                             // console.log(canvas.toDataURL("image/png"), '=========>canvas image');
+                        //                             // console.log(base64Canvas, '=========>base64Canvas');
+                        //                         }
+
+                        $('input[name=quantity]').on('change', async function (e) {
+                            // console.log(e, '========>e');
+                            // return;
+                            // if (e.target.files.length > 0) {
+                            //     const file = e.target.files[0];
+                            //     const blob = await getVideoCover(file, 1.5);
+
+                            //     console.log(blob, '===========>blob');
+
+                            //     var reader = new FileReader();
+                            //     reader.readAsDataURL(blob);
+                            //     reader.onloadend = function () {
+                            //         var base64data = reader.result;
+                            //         console.log(base64data, '=====>base64data');
+
+                            //         $('#videoThumbnailHolder').html(`
+                            //         <div class="form-group">
+                            //                 <label>Video Thumbnail</label>
+                            //                 <div class="input-group">
+                            //                     <div class="input-group-prepend">
+                            //                         <div class="input-group-text">
+                            //                             <i class="fas fa-image"></i>
+                            //                         </div>
+                            //                     </div>
+                            //                     <div id="image-preview" class="image-preview"
+                            //                         style="background-image: url(''); background-size: cover; background-position: center center;">
+
+                            //                     </div>
+                            //                 </div>
+                            //             </div>`);
+                                    
+                            //         $('#previewMedia').val(base64data);
+                            //         $('.image-preview').css('background-image', `url(${base64data})`);
+                            //     }
+
+                                // const convertedImageFile = blobToFile(cover);
+                                // console.log(convertedImageFile, '=====>convertedImageFile');
+                            // }
+                        });
+
+
+                        $('input[name=media]').on('change', async function (e) {
+                            // console.log(e, '========>e');
+                            // return;
+                            if (e.target.files.length > 0) {
+                                const file = e.target.files[0];
+                                const blob = await getVideoCover(file, 1.5);
+
+                                console.log(blob, '===========>blob');
+
+                                var reader = new FileReader();
+                                reader.readAsDataURL(blob);
+                                reader.onloadend = function () {
+                                    var base64data = reader.result;
+                                    console.log(base64data, '=====>base64data');
+
+                                    $('#videoThumbnailHolder').html(`
+                                    <div class="form-group">
+                                            <label>Video Thumbnail</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="fas fa-image"></i>
+                                                    </div>
+                                                </div>
+                                                <div id="image-preview" class="image-preview"
+                                                    style="background-image: url(''); background-size: cover; background-position: center center;">
+
+                                                </div>
+                                            </div>
+                                        </div>`);
+                                    
+                                    $('#previewMedia').val(base64data);
+                                    $('.image-preview').css('background-image', `url(${base64data})`);
+                                }
+
+                                // const convertedImageFile = blobToFile(cover);
+                                // console.log(convertedImageFile, '=====>convertedImageFile');
+                            }
+                        });
+                        // get the frame at 1.5 seconds of the video file
+                        // print out the result image blob
+                    } catch (ex) {
+                        console.log("ERROR: ", ex);
+                    }
+
+
+                    function blobToFile(theBlob, fileName) {
+                        //A Blob() is almost a File() - it's just missing the two properties below which we will add
+                        theBlob.lastModifiedDate = new Date();
+                        theBlob.name = fileName;
+                        return theBlob;
+                    }
+
+
+
+                    function getVideoCover(file, seekTo = 0.0) {
+                        console.log("getting video cover for file: ", file);
+                        return new Promise((resolve, reject) => {
+                            // load the file to a video player
+                            const videoPlayer = document.createElement('video');
+                            videoPlayer.setAttribute('src', URL.createObjectURL(file));
+                            videoPlayer.load();
+                            videoPlayer.addEventListener('error', (ex) => {
+                                reject("error when loading video file", ex);
+                            });
+                            // load metadata of the video to get video duration and dimensions
+                            videoPlayer.addEventListener('loadedmetadata', () => {
+                                // seek to user defined timestamp (in seconds) if possible
+                                if (videoPlayer.duration < seekTo) {
+                                    reject("video is too short.");
+                                    return;
+                                }
+                                // delay seeking or else 'seeked' event won't fire on Safari
+                                setTimeout(() => {
+                                    videoPlayer.currentTime = seekTo;
+                                }, 200);
+                                // extract video thumbnail once seeking is complete
+                                videoPlayer.addEventListener('seeked', () => {
+                                    console.log('video is now paused at %ss.', seekTo);
+                                    // define a canvas to have the same dimension as the video
+                                    const canvas = document.createElement("canvas");
+                                    canvas.width = videoPlayer.videoWidth;
+                                    canvas.height = videoPlayer.videoHeight;
+                                    // draw the video frame to canvas
+                                    const ctx = canvas.getContext("2d");
+                                    ctx.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height);
+                                    // return the canvas image as a blob
+                                    ctx.canvas.toBlob(
+                                        blob => {
+                                            resolve(blob);
+                                        },
+                                        "image/jpeg",
+                                        0.75 /* quality */
+                                    );
+                                });
+                            });
+                        });
+                    }
+
+                });
+
+                $(document.body).on('change', 'input[name=mediaType]', function(e) {
+                    console.log('input[name=mediaType]', e.target.value);
+                    var value = e.target.value;
+
+                    if (value == 0) {
+                        $('#videoThumbnailHolder').html('');
+                    }
+                });
+                $(document.body).on('change', 'input[name=quantityType]', function(e) {
+                    console.log('input[name=quantityType]', e.target.value);
+                    var value = e.target.value;
+
+                    if (value == 0) {
+                        $('#videoThumbnailHolder').html('');
+                    }
+                });
+            </script>
